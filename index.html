@@ -10,18 +10,13 @@
       --bg1:#070A13;
       --bg2:#0B1224;
       --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
       --stroke: rgba(255,255,255,.10);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
       --muted2: rgba(255,255,255,.50);
-      --good: #2BE4A7;
-      --warn: #FFB020;
-      --danger:#FF4D6D;
       --shadow: 0 18px 70px rgba(0,0,0,.55);
       --radius: 18px;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -35,25 +30,9 @@
         linear-gradient(180deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
     }
-
-    .wrap{
-      min-height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px 16px;
-    }
-
-    .shell{
-      width:min(980px, 100%);
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:18px;
-    }
-
-    @media (max-width: 860px){
-      .shell{grid-template-columns: 1fr}
-    }
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+    .shell{width:min(980px, 100%);display:grid;grid-template-columns: 1.1fr .9fr;gap:18px;}
+    @media (max-width: 860px){.shell{grid-template-columns: 1fr}}
 
     .card{
       background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
@@ -64,7 +43,6 @@
       overflow:hidden;
       position:relative;
     }
-
     .card::before{
       content:"";
       position:absolute;
@@ -74,198 +52,103 @@
       pointer-events:none;
       opacity:.9;
     }
-
     .card > *{position:relative; z-index:1}
 
-    .header{
-      padding:22px 22px 10px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
+    .header{padding:22px 22px 10px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+    .brand{display:flex;align-items:center;gap:12px;}
     .logo{
-      width:42px;height:42px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
+      width:42px;height:42px;border-radius: 14px;border:1px solid rgba(255,255,255,.14);
       background: linear-gradient(135deg, rgba(43,228,167,.22), rgba(255,176,32,.18));
-      display:grid;place-items:center;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      display:grid;place-items:center;box-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
-
     .logo svg{opacity:.95}
-
-    .title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.15;
-    }
-    .title b{font-size:16px; letter-spacing:.2px}
-    .title span{font-size:12px; color:var(--muted2)}
-
+    .title{display:flex;flex-direction:column;line-height:1.15;}
+    .title b{font-size:16px;letter-spacing:.2px}
+    .title span{font-size:12px;color:var(--muted2)}
     .badge{
-      font-size:12px;
-      padding:8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-      white-space:nowrap;
+      font-size:12px;padding:8px 10px;border-radius: 999px;border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);color: var(--muted);white-space:nowrap;
     }
 
     .content{padding: 10px 22px 22px}
+    .h1{font-size:28px;margin: 6px 0 10px;letter-spacing:.2px;}
+    .sub{margin: 0 0 18px;color: var(--muted);font-size:14px;max-width: 62ch;}
 
-    .h1{
-      font-size:28px;
-      margin: 6px 0 10px;
-      letter-spacing:.2px;
-    }
-    .sub{
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size:14px;
-      max-width: 62ch;
-    }
-
-    .form{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:10px;
-      align-items:stretch;
-      margin-top:12px;
-    }
-
+    .form{display:grid;grid-template-columns: 1fr auto;gap:10px;align-items:stretch;margin-top:12px;}
     .input{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(10,14,28,.45);
-      outline: none;
-      transition: .2s ease;
+      display:flex;align-items:center;gap:10px;padding: 12px 14px;border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);background: rgba(10,14,28,.45);
+      outline: none;transition: .2s ease;
     }
-    .input:focus-within{
-      border-color: rgba(43,228,167,.55);
-      box-shadow: 0 0 0 4px rgba(43,228,167,.14);
-    }
+    .input:focus-within{border-color: rgba(43,228,167,.55);box-shadow: 0 0 0 4px rgba(43,228,167,.14);}
 
-    .input .prefix{
-      font-size:12px;
-      color: var(--muted2);
+    .prefixWrap{display:flex;align-items:center;gap:8px;}
+
+    select{
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.05);
-      padding:6px 10px;
+      color: rgba(255,255,255,.92);
+      padding:7px 10px;
       border-radius: 999px;
+      outline:none;
+      cursor:pointer;
+      font-size:12px;
+    }
+    select:focus{box-shadow: 0 0 0 4px rgba(43,228,167,.14); border-color: rgba(43,228,167,.45);}
+    option{background:#0B1224;color:#fff;}
+
+    .prefix{
+      font-size:12px;color: rgba(255,255,255,.85);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding:6px 10px;border-radius: 999px;
       user-select:none;
+      white-space:nowrap;
     }
 
     input[type="tel"]{
-      width:100%;
-      border:0;
-      outline:0;
-      background: transparent;
-      color: var(--text);
-      font-size:15px;
-      letter-spacing:.2px;
+      width:100%;border:0;outline:0;background: transparent;color: var(--text);
+      font-size:15px;letter-spacing:.2px;
     }
     input::placeholder{color: rgba(255,255,255,.35)}
 
     .btn{
-      border:0;
-      cursor:pointer;
-      border-radius: 14px;
-      padding: 12px 16px;
-      font-weight: 700;
+      border:0;cursor:pointer;border-radius: 14px;padding: 12px 16px;font-weight: 700;
       color: rgba(0,0,0,.84);
       background: linear-gradient(135deg, rgba(43,228,167,1), rgba(255,176,32,1));
       box-shadow: 0 14px 40px rgba(0,0,0,.35);
       transition: transform .12s ease, filter .12s ease, opacity .12s ease;
-      min-width: 160px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
+      min-width: 160px;display:flex;align-items:center;justify-content:center;gap:10px;
     }
     .btn:hover{transform: translateY(-1px); filter: brightness(1.03)}
     .btn:active{transform: translateY(0px); filter: brightness(.98)}
     .btn[disabled]{cursor:not-allowed; opacity:.65; transform:none; filter:none}
 
-    .tiny{
-      margin-top:12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--muted2);
-      font-size:12px;
-      align-items:center;
-    }
-    .dot{
-      width:6px;height:6px;border-radius:50%;
-      background: rgba(43,228,167,.9);
-      box-shadow: 0 0 0 4px rgba(43,228,167,.16);
-    }
+    .tiny{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;color: var(--muted2);font-size:12px;align-items:center;}
+    .dot{width:6px;height:6px;border-radius:50%;background: rgba(43,228,167,.9);box-shadow: 0 0 0 4px rgba(43,228,167,.16);}
 
-    /* Right panel */
-    .side{
-      padding:18px 18px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+    .side{padding:18px;display:flex;flex-direction:column;gap:12px;}
     .side .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
       border:1px solid rgba(255,255,255,.12);
       border-radius: 16px;
       padding:14px;
     }
-    .kpi{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
+    .kpi{display:grid;grid-template-columns: 1fr 1fr;gap:10px;margin-top:10px;}
     .stat{
-      padding:12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
+      padding:12px;border-radius: 14px;border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
     }
-    .stat b{display:block; font-size:14px}
-    .stat span{display:block; font-size:12px; color: var(--muted2); margin-top:4px}
+    .stat b{display:block;font-size:14px}
+    .stat span{display:block;font-size:12px;color: var(--muted2);margin-top:4px}
 
-    .list{
-      margin:0;
-      padding-left:18px;
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.55;
-    }
+    .list{margin:0;padding-left:18px;color: var(--muted);font-size:13px;line-height:1.55;}
 
-    /* Loader */
     .loaderBox{
-      margin-top:16px;
-      padding:14px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      display:none;
+      margin-top:16px;padding:14px;border-radius: 16px;border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);display:none;
     }
-    .loaderTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
-    }
+    .loaderTop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
     .spinner{
       width:18px;height:18px;border-radius:50%;
       border: 2px solid rgba(255,255,255,.18);
@@ -275,18 +158,13 @@
     @keyframes spin{to{transform: rotate(360deg)}}
 
     .progress{
-      height:10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
+      height:10px;border-radius: 999px;background: rgba(255,255,255,.08);
+      overflow:hidden;border:1px solid rgba(255,255,255,.10);
     }
     .bar{
-      height:100%;
-      width:0%;
+      height:100%;width:0%;
       background: linear-gradient(90deg, rgba(43,228,167,1), rgba(255,176,32,1));
-      border-radius: 999px;
-      transition: width .18s ease;
+      border-radius: 999px;transition: width .18s ease;
     }
 
     .cancel{
@@ -301,31 +179,14 @@
     .cancel:hover{background: rgba(255,255,255,.08)}
     .cancel:active{transform: translateY(1px)}
 
-    /* Fullscreen prank */
     .fullscreen{
-      position:fixed;
-      inset:0;
-      background:#000;
-      display:none;
-      z-index: 9999;
-      align-items:center;
-      justify-content:center;
+      position:fixed;inset:0;background:#000;display:none;z-index: 9999;
+      align-items:center;justify-content:center;
     }
-    .fullscreen img{
-      width:100%;
-      height:100%;
-      object-fit: contain;
-    }
+    .fullscreen img{width:100%;height:100%;object-fit: contain;}
     .hint{
-      position: fixed;
-      left: 18px;
-      bottom: 16px;
-      z-index: 10000;
-      display:none;
-      gap:10px;
-      align-items:center;
-      padding:10px 12px;
-      border-radius: 999px;
+      position: fixed;left: 18px;bottom: 16px;z-index: 10000;
+      display:none;gap:10px;align-items:center;padding:10px 12px;border-radius: 999px;
       border:1px solid rgba(255,255,255,.18);
       background: rgba(0,0,0,.35);
       color: rgba(255,255,255,.82);
@@ -334,12 +195,8 @@
     }
     .hint kbd{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px;
-      padding:2px 7px;
-      border-radius: 8px;
-      border:1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.08);
-      color: rgba(255,255,255,.9);
+      font-size:12px;padding:2px 7px;border-radius: 8px;border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);color: rgba(255,255,255,.9);
     }
   </style>
 </head>
@@ -366,15 +223,30 @@
         <div class="content">
           <div class="h1">Проверка HTL-статуса номера</div>
           <p class="sub">
-            Введите номер телефона, чтобы выполнить автоматическую проверку по внутренним реестрам,
-            валидаторам формата и сигналам риск-скоринга.
+            Выберите код страны и введите номер. Мы «выполним проверку» по внутренним валидаторам и сигналам риск-скоринга.
           </p>
 
           <div class="form" role="form" aria-label="Проверка номера">
             <div class="input">
-              <div class="prefix">+38</div>
-              <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(0__) ___ __ __" aria-label="Номер телефона" />
+              <div class="prefixWrap">
+                <select id="country" aria-label="Код страны">
+                  <option value="UA" selected>UA</option>
+                  <option value="PL">PL</option>
+                  <option value="CZ">CZ</option>
+                  <option value="RO">RO</option>
+                  <option value="DE">DE</option>
+                  <option value="FR">FR</option>
+                  <option value="IT">IT</option>
+                  <option value="ES">ES</option>
+                  <option value="GB">GB</option>
+                </select>
+                <div id="prefix" class="prefix">+380</div>
+              </div>
+
+              <input id="phone" type="tel" inputmode="tel" autocomplete="tel"
+                     placeholder="(0__) ___ __ __" aria-label="Номер телефона" />
             </div>
+
             <button id="checkBtn" class="btn" type="button">
               <span id="btnText">Проверить</span>
               <span id="btnIcon" aria-hidden="true">→</span>
@@ -408,34 +280,22 @@
         <div class="panel">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
             <b style="font-size:14px;">Текущая сессия</b>
-            <span style="font-size:12px;color:rgba(255,255,255,.55);">v1.0</span>
+            <span style="font-size:12px;color:rgba(255,255,255,.55);">v1.1</span>
           </div>
           <div class="kpi">
-            <div class="stat">
-              <b>Риск-скоринг</b>
-              <span>Поведенческие сигналы</span>
-            </div>
-            <div class="stat">
-              <b>Валидация</b>
-              <span>Формат • длина • префикс</span>
-            </div>
-            <div class="stat">
-              <b>Логи</b>
-              <span>События аудита</span>
-            </div>
-            <div class="stat">
-              <b>Защита</b>
-              <span>Anti-abuse throttling</span>
-            </div>
+            <div class="stat"><b>Риск-скоринг</b><span>Поведенческие сигналы</span></div>
+            <div class="stat"><b>Валидация</b><span>Формат • длина • префикс</span></div>
+            <div class="stat"><b>Логи</b><span>События аудита</span></div>
+            <div class="stat"><b>Защита</b><span>Anti-abuse throttling</span></div>
           </div>
         </div>
 
         <div class="panel">
           <b style="font-size:14px;">Как работает</b>
           <ul class="list">
-            <li>Проверяем корректность ввода и маску номера.</li>
-            <li>Имитируем запросы к «реестрам» и «валидаторам».</li>
-            <li>Показываем результат на основе «анализатора».</li>
+            <li>Выбираете код страны и вводите номер.</li>
+            <li>Запускаем «проверку» (имитация запросов).</li>
+            <li>Показываем «результат» в конце процесса.</li>
           </ul>
           <div style="margin-top:10px;color:rgba(255,255,255,.55);font-size:12px;">
             *Демо-версия для презентации интерфейса.
@@ -445,7 +305,6 @@
     </div>
   </div>
 
-  <!-- Fullscreen image prank -->
   <div id="fullscreen" class="fullscreen" aria-hidden="true">
     <img
       id="prankImg"
@@ -458,6 +317,8 @@
   </div>
 
   <script>
+    const country = document.getElementById('country');
+    const prefixEl = document.getElementById('prefix');
     const phone = document.getElementById('phone');
     const checkBtn = document.getElementById('checkBtn');
     const btnText = document.getElementById('btnText');
@@ -484,6 +345,19 @@
       "Формирование отчёта…"
     ];
 
+    // Конфиг страны: код, сколько цифр ожидаем (без кода), и плейсхолдер
+    const COUNTRIES = {
+      UA: { dial: "+380", digits: 9, placeholder: "(0__) ___ __ __", mask: "UA" },
+      PL: { dial: "+48",  digits: 9, placeholder: "___ ___ ___",     mask: "PL" },
+      CZ: { dial: "+420", digits: 9, placeholder: "___ ___ ___",     mask: "CZ" },
+      RO: { dial: "+40",  digits: 9, placeholder: "___ ___ ___",     mask: "RO" },
+      DE: { dial: "+49",  digits: 10, placeholder: "____ ______",    mask: "DE" }, // условно
+      FR: { dial: "+33",  digits: 9, placeholder: "_ __ __ __ __",   mask: "FR" },
+      IT: { dial: "+39",  digits: 9, placeholder: "___ _______",     mask: "IT" }, // условно
+      ES: { dial: "+34",  digits: 9, placeholder: "___ ___ ___",     mask: "ES" },
+      GB: { dial: "+44",  digits: 10, placeholder: "____ ______",    mask: "GB" }  // условно
+    };
+
     function setProgress(pct){
       const clamped = Math.max(0, Math.min(100, pct));
       bar.style.width = clamped + "%";
@@ -493,6 +367,7 @@
 
     function setLoading(isLoading){
       checkBtn.disabled = isLoading;
+      country.disabled = isLoading;
       phone.disabled = isLoading;
       cancelBtn.style.display = isLoading ? "inline-flex" : "none";
       loaderBox.style.display = isLoading ? "block" : "none";
@@ -524,14 +399,55 @@
       reset();
     }
 
+    function applyCountry(){
+      const c = COUNTRIES[country.value] || COUNTRIES.UA;
+      prefixEl.textContent = c.dial;
+      phone.value = "";
+      phone.placeholder = c.placeholder;
+      phone.focus();
+    }
+
+    // Маска ввода: UA — своя (как раньше), остальные — простая группировка по 3/3/3 или по 4/6
+    function formatNumber(digits, ckey){
+      const c = COUNTRIES[ckey] || COUNTRIES.UA;
+
+      if (ckey === "UA"){
+        // 9 цифр: (0xx) xxx xx xx (упрощённо)
+        const d = digits.slice(0, 9);
+        let out = "";
+        if (d.length > 0) out += "(" + d.slice(0,2);
+        if (d.length >= 2) out += ")";
+        if (d.length > 2) out += " " + d.slice(2,5);
+        if (d.length > 5) out += " " + d.slice(5,7);
+        if (d.length > 7) out += " " + d.slice(7,9);
+        return out.trim();
+      }
+
+      // Универсальная: если 10 — делаем 4+6, если 9 — 3+3+3
+      if (c.digits === 10){
+        const d = digits.slice(0, 10);
+        const a = d.slice(0,4);
+        const b = d.slice(4,10);
+        return [a, b].filter(Boolean).join(" ").trim();
+      } else {
+        const d = digits.slice(0, c.digits);
+        const a = d.slice(0,3);
+        const b = d.slice(3,6);
+        const e = d.slice(6,9);
+        return [a, b, e].filter(Boolean).join(" ").trim();
+      }
+    }
+
     function startCheck(){
-      // Простая "валидация"
+      const c = COUNTRIES[country.value] || COUNTRIES.UA;
       const raw = (phone.value || "").trim();
       const digits = raw.replace(/\D/g, "");
-      if (digits.length < 9){
+
+      if (digits.length < c.digits){
         phone.focus();
-        statusLine.textContent = "Введите номер корректно (минимум 9 цифр)";
         loaderBox.style.display = "block";
+        statusLine.textContent = `Введите номер полностью: нужно ${c.digits} цифр (без кода страны)`;
+        etaLine.textContent = "Осталось: ~ 30 сек";
         setProgress(0);
         return;
       }
@@ -554,23 +470,19 @@
         if (elapsed >= DURATION){
           clearInterval(timer);
           timer = null;
-          // финал — показ картинки
           showFullscreen();
         }
       }, 160);
     }
 
-    // Маска ввода (лёгкая)
     phone.addEventListener('input', () => {
-      const d = phone.value.replace(/\D/g, "").slice(0, 9);
-      let out = "";
-      if (d.length > 0) out += "(" + d.slice(0,2);
-      if (d.length >= 2) out += ")";
-      if (d.length > 2) out += " " + d.slice(2,5);
-      if (d.length > 5) out += " " + d.slice(5,7);
-      if (d.length > 7) out += " " + d.slice(7,9);
-      phone.value = out;
+      const ckey = country.value;
+      const c = COUNTRIES[ckey] || COUNTRIES.UA;
+      const d = phone.value.replace(/\D/g, "").slice(0, c.digits);
+      phone.value = formatNumber(d, ckey);
     });
+
+    country.addEventListener('change', applyCountry);
 
     checkBtn.addEventListener('click', startCheck);
     cancelBtn.addEventListener('click', reset);
@@ -581,7 +493,8 @@
       if (e.key === "Enter" && document.activeElement === phone && !checkBtn.disabled) startCheck();
     });
 
-    // Инициализация
+    // init
+    applyCountry();
     statusLine.textContent = "Готово к проверке";
   </script>
 </body>
