@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>HTL Проверка номера — Secure Verify</title>
+  <style>
+    :root{
+      --bg1:#070A13;
+      --bg2:#0B1224;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.50);
+      --good: #2BE4A7;
+      --warn: #FFB020;
+      --danger:#FF4D6D;
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(43,228,167,.15), transparent 55%),
+        radial-gradient(900px 600px at 80% 40%, rgba(255,176,32,.12), transparent 60%),
+        radial-gradient(800px 600px at 50% 110%, rgba(120,165,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px 16px;
+    }
+
+    .shell{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+    }
+
+    @media (max-width: 860px){
+      .shell{grid-template-columns: 1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(650px 260px at 20% 0%, rgba(43,228,167,.16), transparent 60%),
+                  radial-gradient(520px 260px at 90% 30%, rgba(255,176,32,.14), transparent 62%);
+      pointer-events:none;
+      opacity:.9;
+    }
+
+    .card > *{position:relative; z-index:1}
+
+    .header{
+      padding:22px 22px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:42px;height:42px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(135deg, rgba(43,228,167,.22), rgba(255,176,32,.18));
+      display:grid;place-items:center;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .logo svg{opacity:.95}
+
+    .title{
+      display:flex;
+      flex-direction:column;
+      line-height:1.15;
+    }
+    .title b{font-size:16px; letter-spacing:.2px}
+    .title span{font-size:12px; color:var(--muted2)}
+
+    .badge{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .content{padding: 10px 22px 22px}
+
+    .h1{
+      font-size:28px;
+      margin: 6px 0 10px;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size:14px;
+      max-width: 62ch;
+    }
+
+    .form{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:stretch;
+      margin-top:12px;
+    }
+
+    .input{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,14,28,.45);
+      outline: none;
+      transition: .2s ease;
+    }
+    .input:focus-within{
+      border-color: rgba(43,228,167,.55);
+      box-shadow: 0 0 0 4px rgba(43,228,167,.14);
+    }
+
+    .input .prefix{
+      font-size:12px;
+      color: var(--muted2);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding:6px 10px;
+      border-radius: 999px;
+      user-select:none;
+    }
+
+    input[type="tel"]{
+      width:100%;
+      border:0;
+      outline:0;
+      background: transparent;
+      color: var(--text);
+      font-size:15px;
+      letter-spacing:.2px;
+    }
+    input::placeholder{color: rgba(255,255,255,.35)}
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 700;
+      color: rgba(0,0,0,.84);
+      background: linear-gradient(135deg, rgba(43,228,167,1), rgba(255,176,32,1));
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+      min-width: 160px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+    .btn:hover{transform: translateY(-1px); filter: brightness(1.03)}
+    .btn:active{transform: translateY(0px); filter: brightness(.98)}
+    .btn[disabled]{cursor:not-allowed; opacity:.65; transform:none; filter:none}
+
+    .tiny{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--muted2);
+      font-size:12px;
+      align-items:center;
+    }
+    .dot{
+      width:6px;height:6px;border-radius:50%;
+      background: rgba(43,228,167,.9);
+      box-shadow: 0 0 0 4px rgba(43,228,167,.16);
+    }
+
+    /* Right panel */
+    .side{
+      padding:18px 18px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .side .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding:14px;
+    }
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .stat{
+      padding:12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    .stat b{display:block; font-size:14px}
+    .stat span{display:block; font-size:12px; color: var(--muted2); margin-top:4px}
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    /* Loader */
+    .loaderBox{
+      margin-top:16px;
+      padding:14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      display:none;
+    }
+    .loaderTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .spinner{
+      width:18px;height:18px;border-radius:50%;
+      border: 2px solid rgba(255,255,255,.18);
+      border-top-color: rgba(43,228,167,.95);
+      animation: spin .9s linear infinite;
+    }
+    @keyframes spin{to{transform: rotate(360deg)}}
+
+    .progress{
+      height:10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(43,228,167,1), rgba(255,176,32,1));
+      border-radius: 999px;
+      transition: width .18s ease;
+    }
+
+    .cancel{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor:pointer;
+      display:none;
+    }
+    .cancel:hover{background: rgba(255,255,255,.08)}
+    .cancel:active{transform: translateY(1px)}
+
+    /* Fullscreen prank */
+    .fullscreen{
+      position:fixed;
+      inset:0;
+      background:#000;
+      display:none;
+      z-index: 9999;
+      align-items:center;
+      justify-content:center;
+    }
+    .fullscreen img{
+      width:100%;
+      height:100%;
+      object-fit: contain;
+    }
+    .hint{
+      position: fixed;
+      left: 18px;
+      bottom: 16px;
+      z-index: 10000;
+      display:none;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.35);
+      color: rgba(255,255,255,.82);
+      font-size:12px;
+      backdrop-filter: blur(8px);
+    }
+    .hint kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      padding:2px 7px;
+      border-radius: 8px;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="shell">
+      <section class="card">
+        <div class="header">
+          <div class="brand">
+            <div class="logo" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l8.5 4.5v6.2c0 5.1-3.5 9.5-8.5 9.5S3.5 17.8 3.5 12.7V6.5L12 2z" stroke="rgba(255,255,255,.9)" stroke-width="1.6"/>
+                <path d="M8.2 12.1l2.3 2.4 5.3-5.4" stroke="rgba(255,255,255,.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="title">
+              <b>Secure Verify</b>
+              <span>HTL • Проверка номера</span>
+            </div>
+          </div>
+          <div class="badge">✔ SSL • ✔ KYC-ready • ✔ Audit logs</div>
+        </div>
+
+        <div class="content">
+          <div class="h1">Проверка HTL-статуса номера</div>
+          <p class="sub">
+            Введите номер телефона, чтобы выполнить автоматическую проверку по внутренним реестрам,
+            валидаторам формата и сигналам риск-скоринга.
+          </p>
+
+          <div class="form" role="form" aria-label="Проверка номера">
+            <div class="input">
+              <div class="prefix">+38</div>
+              <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(0__) ___ __ __" aria-label="Номер телефона" />
+            </div>
+            <button id="checkBtn" class="btn" type="button">
+              <span id="btnText">Проверить</span>
+              <span id="btnIcon" aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <div class="tiny">
+            <span class="dot" aria-hidden="true"></span>
+            <span>Среднее время проверки: <b>~ 30 сек</b>. Результат появится автоматически.</span>
+          </div>
+
+          <div id="loaderBox" class="loaderBox" aria-live="polite">
+            <div class="loaderTop">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="spinner" aria-hidden="true"></div>
+                <div>
+                  <div id="statusLine" style="font-weight:700; font-size:13px;">Запуск проверки…</div>
+                  <div id="etaLine" style="font-size:12px; color: rgba(255,255,255,.55); margin-top:2px;">Осталось: ~ 30 сек</div>
+                </div>
+              </div>
+              <button id="cancelBtn" class="cancel" type="button">Отмена</button>
+            </div>
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div id="bar" class="bar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card side" aria-label="Информация сервиса">
+        <div class="panel">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+            <b style="font-size:14px;">Текущая сессия</b>
+            <span style="font-size:12px;color:rgba(255,255,255,.55);">v1.0</span>
+          </div>
+          <div class="kpi">
+            <div class="stat">
+              <b>Риск-скоринг</b>
+              <span>Поведенческие сигналы</span>
+            </div>
+            <div class="stat">
+              <b>Валидация</b>
+              <span>Формат • длина • префикс</span>
+            </div>
+            <div class="stat">
+              <b>Логи</b>
+              <span>События аудита</span>
+            </div>
+            <div class="stat">
+              <b>Защита</b>
+              <span>Anti-abuse throttling</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <b style="font-size:14px;">Как работает</b>
+          <ul class="list">
+            <li>Проверяем корректность ввода и маску номера.</li>
+            <li>Имитируем запросы к «реестрам» и «валидаторам».</li>
+            <li>Показываем результат на основе «анализатора».</li>
+          </ul>
+          <div style="margin-top:10px;color:rgba(255,255,255,.55);font-size:12px;">
+            *Демо-версия для презентации интерфейса.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Fullscreen image prank -->
+  <div id="fullscreen" class="fullscreen" aria-hidden="true">
+    <img
+      id="prankImg"
+      alt="Результат проверки"
+      src="https://i.pinimg.com/originals/a2/36/20/a23620bbf4143ab4b90a462e59c25dad.jpg"
+    />
+  </div>
+  <div id="hint" class="hint">
+    <span>Нажми</span> <kbd>ESC</kbd> <span>чтобы закрыть</span>
+  </div>
+
+  <script>
+    const phone = document.getElementById('phone');
+    const checkBtn = document.getElementById('checkBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+
+    const loaderBox = document.getElementById('loaderBox');
+    const statusLine = document.getElementById('statusLine');
+    const etaLine = document.getElementById('etaLine');
+    const bar = document.getElementById('bar');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    const fullscreen = document.getElementById('fullscreen');
+    const hint = document.getElementById('hint');
+
+    let timer = null;
+    let startTs = 0;
+    const DURATION = 30_000;
+
+    const steps = [
+      "Нормализация номера…",
+      "Проверка маски и длины…",
+      "Сверка с внутренними реестрами…",
+      "Оценка сигнала риска…",
+      "Формирование отчёта…"
+    ];
+
+    function setProgress(pct){
+      const clamped = Math.max(0, Math.min(100, pct));
+      bar.style.width = clamped + "%";
+      const progressEl = loaderBox.querySelector('[role="progressbar"]');
+      progressEl.setAttribute("aria-valuenow", String(Math.round(clamped)));
+    }
+
+    function setLoading(isLoading){
+      checkBtn.disabled = isLoading;
+      phone.disabled = isLoading;
+      cancelBtn.style.display = isLoading ? "inline-flex" : "none";
+      loaderBox.style.display = isLoading ? "block" : "none";
+      btnText.textContent = isLoading ? "Проверяем…" : "Проверить";
+      btnIcon.textContent = isLoading ? "⏳" : "→";
+    }
+
+    function reset(){
+      if (timer) clearInterval(timer);
+      timer = null;
+      setLoading(false);
+      setProgress(0);
+      statusLine.textContent = "Готово к проверке";
+      etaLine.textContent = "Осталось: ~ 30 сек";
+    }
+
+    function showFullscreen(){
+      fullscreen.style.display = "flex";
+      fullscreen.setAttribute("aria-hidden", "false");
+      hint.style.display = "inline-flex";
+      document.documentElement.style.overflow = "hidden";
+    }
+
+    function hideFullscreen(){
+      fullscreen.style.display = "none";
+      fullscreen.setAttribute("aria-hidden", "true");
+      hint.style.display = "none";
+      document.documentElement.style.overflow = "";
+      reset();
+    }
+
+    function startCheck(){
+      // Простая "валидация"
+      const raw = (phone.value || "").trim();
+      const digits = raw.replace(/\D/g, "");
+      if (digits.length < 9){
+        phone.focus();
+        statusLine.textContent = "Введите номер корректно (минимум 9 цифр)";
+        loaderBox.style.display = "block";
+        setProgress(0);
+        return;
+      }
+
+      setLoading(true);
+      startTs = Date.now();
+
+      timer = setInterval(() => {
+        const elapsed = Date.now() - startTs;
+        const pct = (elapsed / DURATION) * 100;
+        setProgress(pct);
+
+        const remaining = Math.max(0, DURATION - elapsed);
+        const sec = Math.ceil(remaining / 1000);
+
+        const stepIndex = Math.min(steps.length - 1, Math.floor((elapsed / DURATION) * steps.length));
+        statusLine.textContent = steps[stepIndex];
+        etaLine.textContent = "Осталось: ~ " + sec + " сек";
+
+        if (elapsed >= DURATION){
+          clearInterval(timer);
+          timer = null;
+          // финал — показ картинки
+          showFullscreen();
+        }
+      }, 160);
+    }
+
+    // Маска ввода (лёгкая)
+    phone.addEventListener('input', () => {
+      const d = phone.value.replace(/\D/g, "").slice(0, 9);
+      let out = "";
+      if (d.length > 0) out += "(" + d.slice(0,2);
+      if (d.length >= 2) out += ")";
+      if (d.length > 2) out += " " + d.slice(2,5);
+      if (d.length > 5) out += " " + d.slice(5,7);
+      if (d.length > 7) out += " " + d.slice(7,9);
+      phone.value = out;
+    });
+
+    checkBtn.addEventListener('click', startCheck);
+    cancelBtn.addEventListener('click', reset);
+
+    fullscreen.addEventListener('click', hideFullscreen);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && fullscreen.style.display === "flex") hideFullscreen();
+      if (e.key === "Enter" && document.activeElement === phone && !checkBtn.disabled) startCheck();
+    });
+
+    // Инициализация
+    statusLine.textContent = "Готово к проверке";
+  </script>
+</body>
+</html>
